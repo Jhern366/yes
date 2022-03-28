@@ -1,0 +1,43 @@
+function FindProxyForURL(url, host)
+{
+	url = url.toLowerCase();
+	host = host.toLowerCase();
+
+	var proxyhosts = new Array(
+		"richland2.org",
+		"google.com",
+		"youtube.com",
+		"cros-omahaproxy.appspot.com",
+		"googleapis.com",
+		"gvt1.com",
+		"gvt2.com",
+		"gvt3.com",
+		"omahaproxy.appspot.com",
+		"gstatic.com",
+		"googleusercontent.com",
+		"gweb-gettingstartedguide.appspot.com",
+		"googlevideo.com",
+		"youtube-nocookie.com",
+		"ytimg.com"
+	);
+
+	// If browsing to localhost, always return direct
+		if (localHostOrDomainIs(host, "127.0.0.1")) {
+			return "DIRECT";
+		}      
+
+   // Return direct for matched domains/hosts
+	   for ( var i=0; i<proxyhosts.length; i++ ) {
+		  var value = proxyhosts[i];
+		  if ( dnsDomainIs(host, "."+value) || host==value ) {
+			 return "DIRECT";
+		  }
+	   }
+   
+	// Return proxy for all other http and https sites
+		if (url.substring(0,4) == "http") {
+			return "PROXY 204.116.214.20:10000";
+		}
+
+	return "DIRECT";    
+}
